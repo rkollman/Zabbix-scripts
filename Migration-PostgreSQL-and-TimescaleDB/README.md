@@ -3,16 +3,16 @@
 The different versions of software which are used:
 
 #### Zabbix 6 installation
-Zabbix 6.0.38
-PostgreSQL 15.10-1
-TimescaleDB 2.12.2
-Ubuntu 22.0.4.5 LTS
+- Zabbix 6.0.38
+- PostgreSQL 15.10-1
+- TimescaleDB 2.12.2
+- Ubuntu 22.0.4.5 LTS
 
 #### Zabbix 7 installation
-Zabbix 7.0.9
-PostgreSQL 16.6-1
-TimescaleDB 2.18.0
-Ubuntu 24.04.1 LTS
+- Zabbix 7.0.9
+- PostgreSQL 16.6-1
+- TimescaleDB 2.18.0
+- Ubuntu 24.04.1 LTS
 
 ## Zabbix 6 server:
 
