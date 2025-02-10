@@ -18,5 +18,10 @@ pg_dump -Fc -Z 5 -v -d zabbix -U zabbix -h localhost -T history* -T trends* > za
 
 ## Zabbix 7 server
 
-### Import schema
+First create a Zabbix user and empty database:
+createuser --pwprompt zabbix
+createdb -O zabbix zabbix
+
+### Import schema from Zabbix 6 server:
+
 
