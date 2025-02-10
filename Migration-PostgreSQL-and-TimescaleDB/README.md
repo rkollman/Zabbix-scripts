@@ -36,9 +36,11 @@ First make sure you copy the PostgreSQL dump file to the Zabbix 7 PostgreSQL ser
 `pg_restore -Fc -v -d zabbix zabbix_full-nohist.dump`
 
 After restoring, start Zabbix 7, this will upgrade the Zabbix 6 database to Zabbix 7.
+
 `systemctl start zabbix-server`
 
 Look at the zabbix_server.log file. When the upgrade is finished, stop the zabbix server:
+
 `systemctl stop zabbix-server`
 
 ```
@@ -57,6 +59,7 @@ CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 ```
 
 Upgrade timescaledb schema:
+
 `cat /usr/share/zabbix-sql-scripts/postgresql/timescaledb/schema.sql | sudo -u zabbix psql zabbix`
 
 
@@ -78,11 +81,11 @@ Copy csv files to the Zabbix 7 host
 ### Steps to perform on the Zabbix 7 host:
 Copy _import-hist-trends.sql_ to the postgresql home-directory.
 
-(-e is added for more verbose, to see what command is running as this takes a lot of time!):
+(-e is added to the psql-command for more verbose, to see what command is running as this takes a lot of time!):
 
 ```
 sudo su - postgres
 psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql
 ```
 
-This command can take quite some time, so starting it with screen or tmux is advised!
+This import can take quite some time (depending on the size of the history and trends tables) so starting this import with _screen_ or _tmux_ is strongly advised!
