@@ -2,19 +2,14 @@
 
 ## Zabbix 6 server:
 
-### Export schema
-#### Plain text
-pg_dump -Fp -s -d zabbix -U zabbix -h localhost > zabbix_schema.sql
+#### Export dump compressed
+Only schema
+pg_dump -Fc -Z 5 -s -d zabbix --disable-triggers > zabbix_schema.dump
+Full backup without history and trends
+## Donotuse: pg_dump -Fc -Z 5 -d zabbix -T history* -T trends* --disable-triggers > zabbix_full-nohist.dump
 
-#### Custom format compressed
-pg_dump -Fc -Z 5 -v -s -d zabbix -U zabbix -h localhost > zabbix_schema.dump
-
-### Export data without history and trends
-#### Plain text
-pg_dump -Fp -d zabbix -T history* -T trends* > zabbix_data.sql
-
-#### Custom format compressed
-pg_dump -Fc -Z 5 -v -d zabbix -U zabbix -h localhost -T history* -T trends* > zabbix_data.dump
+Full dump
+pg_dump -Fc -Z 5 -d zabbix --disable-triggers > zabbix_full.dump
 
 ## Zabbix 7 server
 
@@ -22,15 +17,33 @@ First create a Zabbix user and empty database:
 createuser --pwprompt zabbix
 createdb -O zabbix zabbix
 
-su - postgres
-psql -d zabbix
-CREATE EXTENSION IF NOT EXISTS timescaledb;
-SELECT timescaledb_pre_restore();
+#CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 
-### Import schema from Zabbix 6 server:
+#### Custom format compressed restore
+pg_restore -Fc -v -s -d zabbix zabbix_schema.dump
+pg_restore -Fc -v -d zabbix zabbix_full.dump
+# Start Zabbix 7 (upgrade database)
+systemctl start zabbix-server
+
+psql -d zabbix -X
+drop extension timescaledb cascade;
+
+psql -d zabbix -X
+CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+Upgrade timescaledb schema:
+cat /usr/share/zabbix-sql-scripts/postgresql/timescaledb/schema.sql | sudo -u zabbix psql zabbix
 
 
-### Set timescale restore mode off:
-psql -d zabbix
-SELECT timescaledb_post_restore();
+
+## Export and import history and trends after going live
+
+import csv-files;
+
+Do this on the Zabbix 6 host:
+psql -U zabbix -h localhost -d zabbix -f export-hist-trends.sql
+
+Copy csv files to the Zabbix 7 host (-e is for more verbose, to see what command is running as this takes a lot of time!):
+psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql
+
+
 
