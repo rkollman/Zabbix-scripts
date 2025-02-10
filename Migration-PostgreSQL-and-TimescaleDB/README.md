@@ -20,6 +20,7 @@ createdb -O zabbix zabbix
 #CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
 
 #### Custom format compressed restore
+pg_restore -Fc -v -d zabbix zabbix_full-nohist.dump
 pg_restore -Fc -v -s -d zabbix zabbix_schema.dump
 pg_restore -Fc -v -d zabbix zabbix_full.dump
 # Start Zabbix 7 (upgrade database)
@@ -34,8 +35,7 @@ Upgrade timescaledb schema:
 cat /usr/share/zabbix-sql-scripts/postgresql/timescaledb/schema.sql | sudo -u zabbix psql zabbix
 
 
-
-## Export and import history and trends after going live
+## Export and import history and trends after going live, this can also be done on a later moment so no history of the "old" Zabbix server will be lost while building the new one!
 
 import csv-files;
 
@@ -44,6 +44,4 @@ psql -U zabbix -h localhost -d zabbix -f export-hist-trends.sql
 
 Copy csv files to the Zabbix 7 host (-e is for more verbose, to see what command is running as this takes a lot of time!):
 psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql
-
-
 
