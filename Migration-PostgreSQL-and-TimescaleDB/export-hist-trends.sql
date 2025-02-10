@@ -1,4 +1,4 @@
-\set ON_ERROR_STOP on
+\set ON_ERROR_STOP off
 
 \copy (select * from history_log) TO 'history_log.csv' DELIMITER ',' CSV;
 
