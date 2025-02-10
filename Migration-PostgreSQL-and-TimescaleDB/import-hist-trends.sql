@@ -10,9 +10,8 @@
 
 \copy history_str FROM 'history_str.csv' DELIMITER ',' CSV;
 
+\copy history_bin FROM 'history_bin.csv' DELIMITER ',' CSV;
+
 \copy trends FROM 'trends.csv' DELIMITER ',' CSV;
 
 \copy trends_uint FROM 'trends_uint.csv' DELIMITER ',' CSV;
-
-\copy history_bin FROM 'history_bin.csv' DELIMITER ',' CSV;
-
