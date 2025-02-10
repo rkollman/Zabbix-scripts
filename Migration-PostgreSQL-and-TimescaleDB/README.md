@@ -22,6 +22,21 @@ First make a full backup without history and trends
 
 `pg_dump -Fc -Z 5 -d zabbix --exclude-table-data=history* --exclude-table-data=trends*  --disable-triggers > zabbix_full-nohist.dump`
 
+Or... make a full backup but disable TimescaleDB in this dump:
+
+`pg_dump -Fc -Z 5 -d zabbix --exclude-table-data=history* --exclude-table-data=trends* -n public --disable-triggers > zabbix_full-nohist.dump`
+
+When you use this TimescaleDB-disabled dump, doesn't need to have the TimescaleDB extension deleted in the next steps. You don't need to drop the TimescaleDB extension, but simple just activate this after importing the dump by doing the following on the Zabbix 7 server:
+
+```
+sudo su - postgres
+psql -d zabbix -X
+
+CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+```
+
+After this start Zabbix 7 server, wait for the upgrade to finish and stop it. Upgrade the TimescaleDB schema and start Zabbix 7 again. After this continue to import the CSV files.
+
 ## Zabbix 7 server
 
 Create a Zabbix user and empty Zabbix database:
@@ -30,7 +45,7 @@ createuser --pwprompt zabbix
 createdb -O zabbix zabbix
 ```
 
-### Restore the created dump on the Zabbix 6 server
+### Restore the created Zabbix 6 dump on the Zabbix 7 server
 
 First make sure you copy the PostgreSQL dump file to the Zabbix 7 PostgreSQL server
 
