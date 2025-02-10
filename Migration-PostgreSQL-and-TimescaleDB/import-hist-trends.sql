@@ -1,4 +1,4 @@
-\set ON_ERROR_STOP on
+\set ON_ERROR_STOP off
 
 \copy history FROM 'history.csv' DELIMITER ',' CSV;
 
