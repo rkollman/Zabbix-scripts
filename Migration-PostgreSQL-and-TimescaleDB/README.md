@@ -6,7 +6,7 @@
 Only schema
 pg_dump -Fc -Z 5 -s -d zabbix --disable-triggers > zabbix_schema.dump
 Full backup without history and trends
-## Donotuse: pg_dump -Fc -Z 5 -d zabbix -T history* -T trends* --disable-triggers > zabbix_full-nohist.dump
+pg_dump -Fc -Z 5 -d zabbix --exclude-table-data=history* --exclude-table-data=trends*  --disable-triggers > zabbix_full-nohist.dump
 
 Full dump
 pg_dump -Fc -Z 5 -d zabbix --disable-triggers > zabbix_full.dump
