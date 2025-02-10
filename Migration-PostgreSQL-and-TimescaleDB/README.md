@@ -24,9 +24,10 @@ First make a full backup without history and trends
 ## Zabbix 7 server
 
 Create a Zabbix user and empty Zabbix database:
-```createuser --pwprompt zabbix
-createdb -O zabbix zabbix```
-
+```
+createuser --pwprompt zabbix
+createdb -O zabbix zabbix
+```
 
 ### Restore the created dump on the Zabbix 6 server
 
@@ -40,37 +41,48 @@ After restoring, start Zabbix 7, this will upgrade the Zabbix 6 database to Zabb
 Look at the zabbix_server.log file. When the upgrade is finished, stop the zabbix server:
 `systemctl stop zabbix-server`
 
-```sudo su - postgres
+```
+sudo su - postgres
 psql -d zabbix -X
 
 drop extension timescaledb cascade;
 exit
 ```
 
-```sudo su - postgres
+```
+sudo su - postgres
 psql -d zabbix -X
 
-CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;```
+CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+```
 
 Upgrade timescaledb schema:
 `cat /usr/share/zabbix-sql-scripts/postgresql/timescaledb/schema.sql | sudo -u zabbix psql zabbix`
 
 
 ## Export and import history and trends after going live.
+For this step, the export-hist-trends.sql and import-hist-trends.sql from this Github page can be used.
 
 This can also be done on a later moment (even weeks later!) so no history of the "old" Zabbix server will be lost while building the new one!
 
 ### Steps to perform on the Zabbix 6 host:
-```sudo su - postgres
-psql -U zabbix -h localhost -d zabbix -f export-hist-trends.sql```
+Copy _export-hist-trends.sql_ to the postgresql home-directory.
+
+```
+sudo su - postgres
+psql -U zabbix -h localhost -d zabbix -f export-hist-trends.sql
+```
 
 Copy csv files to the Zabbix 7 host
 
 ### Steps to perform on the Zabbix 7 host:
+Copy _import-hist-trends.sql_ to the postgresql home-directory.
+
 (-e is added for more verbose, to see what command is running as this takes a lot of time!):
 
-```sudo su - postgres
-psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql```
+```
+sudo su - postgres
+psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql
+```
 
 This command can take quite some time, so starting it with screen or tmux is advised!
-
