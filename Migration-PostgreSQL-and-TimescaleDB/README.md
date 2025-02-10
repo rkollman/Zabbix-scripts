@@ -1,4 +1,5 @@
-# How to migrate Zabbix 6 database on PostgreSQL with TimescaleDB to another instance and upgrade to Zabbix 7
+# Migrate Zabbix 6 on PostgreSQL & TimescaleDB to Zabbix 7 on another instance
+How to migrate Zabbix 6 database on PostgreSQL with TimescaleDB to another instance and upgrade to Zabbix 7
 
 The different versions of software which are used:
 
