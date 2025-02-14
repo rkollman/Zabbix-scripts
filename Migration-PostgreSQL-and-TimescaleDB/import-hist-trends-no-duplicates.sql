@@ -14,8 +14,8 @@ CREATE TEMPORARY TABLE temp_history_uint AS
 INSERT INTO history_uint
     SELECT t.*
     FROM temp_history_uint t
-    LEFT JOIN history_uint h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history_uint h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history_uint;
 
 -- Process history
@@ -26,8 +26,8 @@ CREATE TEMPORARY TABLE temp_history AS
 INSERT INTO history
     SELECT t.*
     FROM temp_history t
-    LEFT JOIN history h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history;
 
 -- Process history_log
@@ -38,8 +38,8 @@ CREATE TEMPORARY TABLE temp_history_log AS
 INSERT INTO history_log
     SELECT t.*
     FROM temp_history_log t
-    LEFT JOIN history_log h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history_log h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history_log;
 
 -- Process history_text
@@ -50,8 +50,8 @@ CREATE TEMPORARY TABLE temp_history_text AS
 INSERT INTO history_text
     SELECT t.*
     FROM temp_history_text t
-    LEFT JOIN history_text h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history_text h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history_text;
 
 -- Process history_str
@@ -62,8 +62,8 @@ CREATE TEMPORARY TABLE temp_history_str AS
 INSERT INTO history_str
     SELECT t.*
     FROM temp_history_str t
-    LEFT JOIN history_str h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history_str h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history_str;
 
 -- Process history_bin
@@ -74,8 +74,8 @@ CREATE TEMPORARY TABLE temp_history_bin AS
 INSERT INTO history_bin
     SELECT t.*
     FROM temp_history_bin t
-    LEFT JOIN history_bin h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN history_bin h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_history_bin;
 
 -- Process trends
@@ -86,8 +86,8 @@ CREATE TEMPORARY TABLE temp_trends AS
 INSERT INTO trends
     SELECT t.*
     FROM temp_trends t
-    LEFT JOIN trends h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN trends h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_trends;
 
 -- Process trends_uint
@@ -98,8 +98,8 @@ CREATE TEMPORARY TABLE temp_trends_uint AS
 INSERT INTO trends_uint
     SELECT t.*
     FROM temp_trends_uint t
-    LEFT JOIN trends_uint h ON t.clock = h.clock
-    WHERE h.clock IS NULL;
+    LEFT JOIN trends_uint h ON t.clock = h.clock AND t.itemid = h.itemid
+    WHERE h.clock IS NULL AND h.itemid IS NULL;
 DROP TABLE temp_trends_uint;
 
 COMMIT;
