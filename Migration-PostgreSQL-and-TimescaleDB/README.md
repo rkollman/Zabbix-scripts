@@ -28,6 +28,8 @@ Or... make a full backup but disable TimescaleDB in this dump:
 
 When you use this TimescaleDB-disabled dump, doesn't need to have the TimescaleDB extension deleted in the next steps. You don't need to drop the TimescaleDB extension, but simple just activate this after importing the dump by doing the following on the Zabbix 7 server:
 
+## Zabbix 7 server
+
 ```
 sudo su - postgres
 psql -d zabbix -X
