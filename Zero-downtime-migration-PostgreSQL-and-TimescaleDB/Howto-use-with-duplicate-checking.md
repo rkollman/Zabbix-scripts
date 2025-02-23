@@ -84,20 +84,6 @@ psql -U zabbix -h localhost -d zabbix -f export-hist-trends.sql
 ```
 Copy the csv files to the Zabbix 7 host
 
-### Steps to perform on the Zabbix 7 host with empty history and trends tables
-The following sql-script doesn't check for duplicate entries in the tables which you're importing the data in. So only use this one on empty history and trends tables.
-
-Copy _import-hist-trends.sql_ to the postgresql home-directory. 
-
-(-e is added to the psql-command for more verbose, to see what command is running as this takes a lot of time!):
-
-This import can take quite some time (depending on the size of the history and trends tables) so starting this import with _screen_ or _tmux_ is strongly advised!
-```
-sudo su - postgres
-psql -U zabbix -h localhost -d zabbix -e -f import-hist-trends.sql
-```
-You can import the data while Zabbix 7 is online!
-
 ### Steps to perform on the Zabbix 7 host when there is already data in the history and trends tables
 The following sql-script checks for duplicate entries in the tables which you're importing the data in. If it finds items with data imported on a time for which also is data in the CSV-file, that specific data won't be imported to the tables.
 
